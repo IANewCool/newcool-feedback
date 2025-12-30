@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { t12EventBus, T12_EVENTS } from '@newcool/t12-shared'
+import type { NPSSubmittedPayload, FeedbackSubmittedPayload } from '@newcool/t12-shared'
 import type { NPSScore, FeedbackItem, SurveyResponse, NPSMetrics } from '@/lib/types'
 
 interface FeedbackState {
@@ -54,9 +56,27 @@ export const useFeedbackStore = create<FeedbackState>()(
 
         set((state) => {
           const newScores = [...state.npsScores, npsEntry]
+          const newMetrics = get().calculateNPSMetrics()
+
+          // Emit T12 event for cross-module communication
+          if (t12EventBus.isReady()) {
+            const payload: NPSSubmittedPayload = {
+              score,
+              category: context || 'general',
+              comment: feedback,
+              npsMetrics: {
+                promoters: newMetrics.promoters,
+                passives: newMetrics.passives,
+                detractors: newMetrics.detractors,
+                score: newMetrics.npsScore
+              }
+            }
+            t12EventBus.publish(T12_EVENTS.NPS_SUBMITTED, payload)
+          }
+
           return {
             npsScores: newScores,
-            npsMetrics: get().calculateNPSMetrics()
+            npsMetrics: newMetrics
           }
         })
       },
@@ -73,6 +93,16 @@ export const useFeedbackStore = create<FeedbackState>()(
         set((state) => ({
           feedbackItems: [feedbackEntry, ...state.feedbackItems]
         }))
+
+        // Emit T12 event for cross-module communication
+        if (t12EventBus.isReady()) {
+          const payload: FeedbackSubmittedPayload = {
+            feedbackId: feedbackEntry.id,
+            type: item.type,
+            title: item.title
+          }
+          t12EventBus.publish(T12_EVENTS.FEEDBACK_SUBMITTED, payload)
+        }
       },
 
       submitSurveyResponse: (surveyId, answers) => {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { NPSWidget } from '@/components/NPS/NPSWidget'
 import { FeedbackForm } from '@/components/Feedback/FeedbackForm'
 import { SurveyCard } from '@/components/Survey/SurveyCard'
+import { T12Provider } from '@/components/T12Provider'
 import { useFeedbackStore } from '@/lib/stores/useFeedbackStore'
 import type { Survey } from '@/lib/types'
 
@@ -51,6 +52,7 @@ export default function FeedbackDashboard() {
   ]
 
   return (
+    <T12Provider>
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-emerald-900/20 to-cyan-900/20">
       {/* Header */}
       <header className="bg-gradient-to-r from-gray-900/80 via-emerald-900/40 to-cyan-900/40 backdrop-blur-xl border-b border-emerald-500/20 p-8">
@@ -203,5 +205,6 @@ export default function FeedbackDashboard() {
         <p>NewCool Feedback | T12-COMMUNITY | Tu voz importa</p>
       </footer>
     </div>
+    </T12Provider>
   )
 }
