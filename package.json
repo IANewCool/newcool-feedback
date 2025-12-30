@@ -1,0 +1,27 @@
+{
+  "name": "newcool-feedback",
+  "version": "1.0.0",
+  "description": "Sistema de feedback, encuestas y NPS para T12-COMMUNITY",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack -p 3013",
+    "build": "next build",
+    "start": "next start -p 3013",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "framer-motion": "^11.15.0",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "typescript": "^5.7.2",
+    "@tailwindcss/postcss": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
