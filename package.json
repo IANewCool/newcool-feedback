@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@newcool/t12-shared": "file:../newcool-t12-shared",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
